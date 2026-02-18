@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { ClientConfirmationEmail } from '@/emails/ClientConfirmationEmail'
 import { ClinicNotificationEmail } from '@/emails/ClinicNotificationEmail'
-import {LRUCache} from 'lru-cache'
+import { LRUCache } from 'lru-cache'
 
 // Rate limiting setup
 const rateLimitCache = new LRUCache({
@@ -29,10 +29,28 @@ function isRateLimited(ip: string): boolean {
   return false
 }
 
+// Helper function to get client IP
+function getClientIp(request: NextRequest): string {
+  // Try x-forwarded-for header first (when behind proxy)
+  const forwardedFor = request.headers.get('x-forwarded-for')
+  if (forwardedFor) {
+    return forwardedFor.split(',')[0].trim()
+  }
+  
+  // Try x-real-ip header
+  const realIp = request.headers.get('x-real-ip')
+  if (realIp) {
+    return realIp
+  }
+  
+  // Fallback
+  return 'unknown'
+}
+
 export async function POST(request: NextRequest) {
   try {
-    // Get client IP for rate limiting
-    const ip = request.ip || request.headers.get('x-forwarded-for') || 'unknown'
+    // Get client IP for rate limiting using the helper function
+    const ip = getClientIp(request)
     
     // Check rate limit
     if (isRateLimited(ip)) {
