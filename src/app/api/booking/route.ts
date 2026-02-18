@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { ClientConfirmationEmail } from '@/emails/ClientConfirmationEmail'
 import { ClinicNotificationEmail } from '@/emails/ClinicNotificationEmail'
-import LRUCache from 'lru-cache'
+import {LRUCache} from 'lru-cache'
 
 // Rate limiting setup
 const rateLimitCache = new LRUCache({
