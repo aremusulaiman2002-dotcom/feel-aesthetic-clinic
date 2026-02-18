@@ -8,9 +8,6 @@ import {
   Preview,
   Section,
   Text,
-  Table,
-  Row,
-  Column,
 } from '@react-email/components'
 
 interface ClinicNotificationEmailProps {
@@ -39,44 +36,44 @@ export function ClinicNotificationEmail({ formData }: ClinicNotificationEmailPro
           </Text>
 
           <Section style={tableContainer}>
-            <Table style={table}>
-              <Row>
-                <Column style={tableHeader}>Field</Column>
-                <Column style={tableHeader}>Details</Column>
-              </Row>
-              <Row>
-                <Column style={tableCell}>Patient Name</Column>
-                <Column style={tableCell}>{formData.fullName}</Column>
-              </Row>
-              <Row>
-                <Column style={tableCell}>Email</Column>
-                <Column style={tableCell}>
+            <div style={table}>
+              <div style={tableRow}>
+                <div style={tableHeader}>Field</div>
+                <div style={tableHeader}>Details</div>
+              </div>
+              <div style={tableRow}>
+                <div style={tableCell}>Patient Name</div>
+                <div style={tableCell}>{formData.fullName}</div>
+              </div>
+              <div style={tableRow}>
+                <div style={tableCell}>Email</div>
+                <div style={tableCell}>
                   <a href={`mailto:${formData.email}`} style={link}>
                     {formData.email}
                   </a>
-                </Column>
-              </Row>
-              <Row>
-                <Column style={tableCell}>Phone</Column>
-                <Column style={tableCell}>
+                </div>
+              </div>
+              <div style={tableRow}>
+                <div style={tableCell}>Phone</div>
+                <div style={tableCell}>
                   <a href={`tel:${formData.phone}`} style={link}>
                     {formData.phone}
                   </a>
-                </Column>
-              </Row>
-              <Row>
-                <Column style={tableCell}>Treatment Interest</Column>
-                <Column style={tableCell}>{formData.treatmentInterest}</Column>
-              </Row>
-              <Row>
-                <Column style={tableCell}>Preferred Date</Column>
-                <Column style={tableCell}>{formData.preferredDate}</Column>
-              </Row>
-              <Row>
-                <Column style={tableCell}>Submitted At</Column>
-                <Column style={tableCell}>{formData.submittedAt}</Column>
-              </Row>
-            </Table>
+                </div>
+              </div>
+              <div style={tableRow}>
+                <div style={tableCell}>Treatment Interest</div>
+                <div style={tableCell}>{formData.treatmentInterest}</div>
+              </div>
+              <div style={tableRow}>
+                <div style={tableCell}>Preferred Date</div>
+                <div style={tableCell}>{formData.preferredDate}</div>
+              </div>
+              <div style={tableRow}>
+                <div style={tableCell}>Submitted At</div>
+                <div style={tableCell}>{formData.submittedAt}</div>
+              </div>
+            </div>
           </Section>
 
           {formData.message && (
@@ -149,18 +146,24 @@ const tableContainer = {
 const table = {
   width: '100%',
   borderCollapse: 'collapse' as const,
+  display: 'table',
+}
+
+const tableRow = {
+  display: 'table-row',
 }
 
 const tableHeader = {
+  display: 'table-cell',
   backgroundColor: '#F6F2EE',
   padding: '12px',
-  textAlign: 'left' as const,
   fontWeight: 'bold',
   color: '#2C2C2C',
   border: '1px solid #E8DDD4',
 }
 
 const tableCell = {
+  display: 'table-cell',
   padding: '12px',
   border: '1px solid #E8DDD4',
   color: '#5A5A5A',
