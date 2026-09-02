@@ -13,9 +13,18 @@
   --color-light-gray: #8A8A8A;
   --color-off-white: #F5F5F5;
   --color-border: #E5E5E5;
-  --color-background: #FFFFFF;
   --color-card-bg: #FFFFFF;
-  
+
+  /* Brand Palette */
+  --color-primary: #9CAF9C;
+  --color-primary-deep: #6E8A6D;
+  --color-secondary: #E8DDD4;
+  --color-accent: #D4BFA0;
+  --color-background: #F6F2EE;
+  --color-text-primary: #2C2C2C;
+  --color-text-secondary: #5A5A5A;
+  --color-text-light: #8A8A8A;
+
   /* Typography */
   --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
   --font-serif: var(--font-playfair), Georgia, serif;
@@ -146,6 +155,14 @@
     @apply bg-off-white text-black border border-border hover:bg-white hover:border-black;
   }
 
+  .btn-primary-invert {
+    @apply bg-white text-black shadow-sm hover:bg-off-white hover:shadow-md;
+  }
+
+  .btn-outline-invert {
+    @apply border-2 border-white text-white hover:bg-white hover:text-black;
+  }
+
   /* Badge Styles */
   .badge {
     @apply inline-flex items-center rounded-full px-3 py-1 text-xs font-medium bg-off-white text-dark-gray border border-border;
@@ -153,6 +170,10 @@
 
   .badge-black {
     @apply bg-black text-white border-black;
+  }
+
+  .badge-invert {
+    @apply bg-white/10 backdrop-blur-sm text-white border border-white/20;
   }
 
   /* Input & Form Styles - BLACK & WHITE ONLY */
