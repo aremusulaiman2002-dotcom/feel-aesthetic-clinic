@@ -1,11 +1,15 @@
+import { Metadata } from 'next'
 import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
 import { GalleryGrid } from '@/components/gallery/GalleryGrid'
 import { Camera } from 'lucide-react'
 
-export const metadata = {
-  title: 'Before & After Gallery | Feel Aesthetic Clinic',
+export const metadata: Metadata = {
+  title: 'Before & After Gallery',
   description: 'View natural, subtle results from our nurse-led aesthetic treatments. All results achieved by Nurse Practitioner Funmi.',
+  alternates: {
+    canonical: '/gallery',
+  },
 }
 
 // Mock gallery data - replace with actual images

@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { Instagram, Facebook, Mail, Phone, MapPin } from 'lucide-react'
+import { Logo } from '@/components/ui/Logo'
 
 const legalLinks = [
   { label: 'Privacy Policy', href: '/privacy-policy' },
@@ -16,14 +17,8 @@ export function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
             {/* Brand Column */}
             <div className="lg:col-span-2">
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-primary rounded-full flex items-center justify-center">
-                  <span className="text-white font-serif font-bold text-xl md:text-2xl">F</span>
-                </div>
-                <div>
-                  <div className="font-serif text-2xl md:text-3xl font-bold tracking-tight">Feel</div>
-                  <div className="text-xs md:text-sm tracking-widest text-text-light">AESTHETIC CLINIC</div>
-                </div>
+              <div className="mb-6">
+                <Logo size="md" />
               </div>
               <p className="text-text-secondary mb-6 text-sm md:text-base">
                 Nurse-led aesthetic clinic specializing in natural, subtle enhancements that refresh and restore confidence.

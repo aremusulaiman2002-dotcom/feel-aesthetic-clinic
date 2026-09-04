@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { Menu, Phone, X } from 'lucide-react'
 import { useState } from 'react'
+import { Logo } from '@/components/ui/Logo'
 
 const navItems = [
   { label: 'Home', href: '/' },
@@ -20,19 +21,7 @@ export function Navbar() {
       <div className="container-narrow">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2 md:gap-3" onClick={() => setIsOpen(false)}>
-            <div className="w-8 h-8 md:w-10 md:h-10 bg-black rounded-full flex items-center justify-center">
-              <span className="text-white font-serif font-bold text-lg md:text-xl">F</span>
-            </div>
-            <div>
-              <div className="font-serif text-xl md:text-2xl font-bold tracking-tight text-black">
-                Feel
-              </div>
-              <div className="text-xs tracking-widest text-light-gray">
-                AESTHETIC CLINIC
-              </div>
-            </div>
-          </Link>
+          <Logo size="sm" onClick={() => setIsOpen(false)} />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-6 lg:gap-8">

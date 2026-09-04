@@ -1,11 +1,15 @@
+import { Metadata } from 'next'
 import { Container } from '@/components/ui/Container'
 import { treatments, categories } from '@/data/treatments'
 import { TreatmentsContent } from './TreatmentsContent'
 import { Sparkles } from 'lucide-react'
 
-export const metadata = {
-  title: 'Our Treatments | Feel Aesthetic Clinic',
-  description: 'Expert aesthetic treatments performed by Nurse Practitioner Funmi. Natural, subtle results with medical precision.',
+export const metadata: Metadata = {
+  title: 'Our Treatments',
+  description: `Explore ${treatments.length}+ nurse-led aesthetic treatments across ${categories.length} categories, including ${categories.map((c) => c.name).join(', ')}. Natural, subtle results with medical precision, performed by Nurse Practitioner Funmi.`,
+  alternates: {
+    canonical: '/treatments',
+  },
 }
 
 export default function TreatmentsPage() {

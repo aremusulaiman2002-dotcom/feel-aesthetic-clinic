@@ -6,33 +6,66 @@ import { Container } from '@/components/ui/Container'
 import { Section } from '@/components/ui/Section'
 import { TreatmentCard } from '@/components/treatments/TreatmentCard'
 import { PriceDisplay } from '@/components/treatments/PriceDisplay'
-import { treatments, getTreatmentBySlug, getRelatedTreatments } from '@/data/treatments'
+import { treatments, getTreatmentBySlug, getRelatedTreatments, Treatment } from '@/data/treatments'
+import { SITE_URL } from '@/lib/site'
 
 interface TreatmentPageProps {
-  params: {
+  params: Promise<{
     slug: string
-  }
+  }>
+}
+
+// A representative headline price for the treatment, e.g. "£170" or "From £300"
+function getPriceText(treatment: Treatment): string {
+  return typeof treatment.pricing === 'string'
+    ? treatment.pricing
+    : `From ${treatment.pricing[0].price}`
+}
+
+// Strips currency symbols/prefixes down to a bare number for schema.org Offer.price
+function getNumericPrice(priceText: string): string {
+  return priceText.replace(/[^0-9.]/g, '')
 }
 
 // Generate metadata for SEO
 export async function generateMetadata({ params }: TreatmentPageProps): Promise<Metadata> {
-  const treatment = getTreatmentBySlug(params.slug)
-  
+  const { slug } = await params
+  const treatment = getTreatmentBySlug(slug)
+
   if (!treatment) {
     return {
-      title: 'Treatment Not Found | Feel Aesthetic Clinic',
-      description: 'The requested treatment could not be found.'
+      title: 'Treatment Not Found',
+      description: 'The requested treatment could not be found.',
     }
   }
 
+  const priceText = getPriceText(treatment)
+  const description =
+    treatment.metaDescription ||
+    `${treatment.description} ${priceText}${treatment.duration ? ` · ${treatment.duration}` : ''}.`
+
   return {
-    title: treatment.metaTitle || `${treatment.title} | Feel Aesthetic Clinic`,
-    description: treatment.metaDescription || treatment.description,
+    // Treatments with a hand-authored metaTitle already include the clinic name,
+    // so render it verbatim (bypassing the root title template); otherwise let
+    // the template append " | Feel Aesthetic Clinic" to the plain treatment title.
+    title: treatment.metaTitle ? { absolute: treatment.metaTitle } : treatment.title,
+    description,
     openGraph: {
       title: treatment.metaTitle || `${treatment.title} | Feel Aesthetic Clinic`,
-      description: treatment.metaDescription || treatment.description,
+      description,
+      url: `${SITE_URL}/treatments/${treatment.slug}`,
       type: 'website',
-    }
+      images: ['/og-image.jpg'],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: treatment.metaTitle || `${treatment.title} | Feel Aesthetic Clinic`,
+      description,
+      images: ['/og-image.jpg'],
+    },
+    alternates: {
+      canonical: `/treatments/${treatment.slug}`,
+    },
   }
 }
 
@@ -43,17 +76,42 @@ export async function generateStaticParams() {
   }))
 }
 
-export default function TreatmentPage({ params }: TreatmentPageProps) {
-  const treatment = getTreatmentBySlug(params.slug)
-  
+export default async function TreatmentPage({ params }: TreatmentPageProps) {
+  const { slug } = await params
+  const treatment = getTreatmentBySlug(slug)
+
   if (!treatment) {
     notFound()
   }
 
   const relatedTreatments = getRelatedTreatments(treatment)
 
+  const priceText = getPriceText(treatment)
+  const serviceJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: treatment.title,
+    description: treatment.metaDescription || treatment.description,
+    provider: {
+      '@type': 'MedicalClinic',
+      name: 'Feel Aesthetic Clinic',
+      url: SITE_URL,
+    },
+    areaServed: 'GB',
+    offers: {
+      '@type': 'Offer',
+      priceCurrency: 'GBP',
+      price: getNumericPrice(priceText),
+      url: `${SITE_URL}/treatments/${treatment.slug}`,
+    },
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceJsonLd) }}
+      />
       {/* Hero Section */}
       <section className="bg-gradient-to-b from-background to-white">
         <Container>

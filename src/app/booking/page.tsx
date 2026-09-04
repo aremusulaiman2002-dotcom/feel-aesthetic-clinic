@@ -1,5 +1,18 @@
+import { Metadata } from 'next'
 import { BookingForm } from '@/components/booking/BookingForm'
 import { Calendar, Clock, Shield, Users, Phone, Mail, MapPin, AlertCircle } from 'lucide-react'
+
+export const metadata: Metadata = {
+  title: 'Book Your Consultation',
+  description: 'Request a consultation with Feel Aesthetic Clinic. Our nurse-led team will assess your goals and create a personalized treatment plan.',
+  robots: {
+    index: false,
+    follow: true,
+  },
+  alternates: {
+    canonical: '/booking',
+  },
+}
 
 export default function BookingPage() {
   return (
